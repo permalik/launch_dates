@@ -1,0 +1,4 @@
+.primarySection {
+    margin: clamp(15rem, 10vw, 20rem) 0;
+    width: 100%;
+}

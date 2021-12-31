@@ -1,0 +1,9 @@
+.main {
+    align-items: center;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    margin: 0 auto;
+    padding: 0 clamp(0.8rem, 8vw, 3rem);
+    width: 100%;
+}
