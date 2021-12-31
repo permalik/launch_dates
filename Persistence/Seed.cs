@@ -22,7 +22,7 @@ namespace Persistence
                     Venue = "Launch Site",
                     City = "Oklahoma City",
                     State = "Oklahoma",
-                    Date = DateTime.Now.AddMonths(-2),
+                    Date = DateTime.Now.AddMonths(-2).AddDays(3),
                 },
                 new Event
                 {
