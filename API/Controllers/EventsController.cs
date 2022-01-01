@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Events;
 using Domain;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -19,6 +20,12 @@ namespace API.Controllers
         public async Task<ActionResult<Event>> GetEvent(Guid id)
         {
             return await Mediator.Send(new Details.Query {Id = id});
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<Unit>> CreateEvent([FromBody]Event @event)
+        {
+            return Ok(await Mediator.Send(new Create.Command {Event = @event}));
         }
     }
 }
