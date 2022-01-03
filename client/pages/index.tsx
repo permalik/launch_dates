@@ -14,7 +14,7 @@ const Home: NextPage = ({events}: any) => {
 				<meta name="description" content="Social app for rocket launch dates"/>
 				<link rel="icon" href="/favicon.ico"/>
 			</Head>
-			<h1 className={styles.headingOne}>Rocket Launch Dates</h1>
+			<h1 className={styles.dashboardHeading}>Launch Event Dashboard</h1>
 			<EventDashboard events={events} />
 		</PrimarySection>
 	);

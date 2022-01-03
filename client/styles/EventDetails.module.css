@@ -1,0 +1,44 @@
+.eventCard {
+    margin: 0 auto 1rem;
+}
+
+.wrapper {
+    border: none;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+    padding: 1rem;
+}
+
+.wrapper > *:not(:last-child) {
+    margin-bottom: 0.5rem;
+}
+
+.controls {
+    display: flex;
+    gap: .5rem;
+    width: 100%;
+}
+
+.controls button {
+    border: none;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+    flex: 1;
+    padding: 0.125rem 0.25rem;
+    position: relative;
+    top: 0;
+    transition: top ease 0.1s;
+}
+
+.controls button:hover {
+    cursor: pointer;
+    top: -2px;
+}
+
+.editButton {
+    background: powderblue;
+}
+
+.cancelButton {
+    background: ghostwhite;
+}
