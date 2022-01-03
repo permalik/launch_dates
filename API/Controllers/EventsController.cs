@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Application.Events;
 using Domain;
@@ -14,7 +15,10 @@ namespace API.Controllers
         public async Task<ActionResult<List<Event>>> GetEvents()
         {
             return await Mediator.Send(new List.Query());
-        }
+        }/*public async Task<ActionResult<List<Event>>> GetEvents(CancellationToken ct)
+        {
+            return await Mediator.Send(new List.Query(), ct);
+        }*/
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Event>> GetEvent(Guid id)
