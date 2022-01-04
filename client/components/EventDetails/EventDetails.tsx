@@ -4,9 +4,10 @@ import styles from '../../styles/EventDetails.module.css';
 
 interface Props {
 	event: Event;
+	cancelSelectEvent: () => void;
 }
 
-const EventDetails = ({event}: Props) => {
+const EventDetails = ({event, cancelSelectEvent}: Props) => {
 	return (
 			<article className={styles.eventCard} key={event.id}>
 				<div className={styles.wrapper}>
@@ -30,7 +31,7 @@ const EventDetails = ({event}: Props) => {
 						<button className={styles.editButton}>
 							edit
 						</button>
-						<button className={styles.cancelButton}>
+						<button className={styles.cancelButton} onClick={cancelSelectEvent}>
 							cancel
 						</button>
 					</section>

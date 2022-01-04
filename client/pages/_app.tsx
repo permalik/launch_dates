@@ -21,7 +21,7 @@ function MyApp({Component, pageProps}: AppProps) {
 
 	function handleSelectEvent(id: string) {
 		// @ts-ignore
-		setSelectedEvent(events.find(x => x.id === id));
+		setSelectedEvent(events.find((x: { id: string; }) => x.id === id));
 	}
 
 	function handleCancelSelectEvent() {

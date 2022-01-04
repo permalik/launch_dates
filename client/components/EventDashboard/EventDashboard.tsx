@@ -1,13 +1,14 @@
 import {Event} from '../../models/event';
 
-import styles from '../../styles/EventDashboard.module.css';
 import EventDetails from '../EventDetails';
 import EventForm from '../EventForm';
 import EventList from '../EventList';
 
+import styles from '../../styles/EventDashboard.module.css';
+
 interface Props {
 	events: Event[];
-	selectedEvent: Event;
+	selectedEvent: Event | undefined;
 	selectEvent: (id: string) => void;
 	cancelSelectEvent: () => void;
 }
@@ -15,9 +16,9 @@ interface Props {
 const EventDashboard = ({events, selectedEvent, selectEvent, cancelSelectEvent}: Props) => {
 	return (
 		<section className={styles.dashboard}>
-			<EventList events={events}/>
+			<EventList events={events} selectEvent={selectEvent}/>
 			<div className={styles.cardControls}>
-				{events[0] && <EventDetails event={events[0]}/>}
+				{selectedEvent && <EventDetails event={selectedEvent} cancelSelectEvent={cancelSelectEvent}/>}
 				<EventForm/>
 			</div>
 		</section>
