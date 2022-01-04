@@ -10,6 +10,7 @@ import '../styles/globals.css';
 function MyApp({Component, pageProps}: AppProps) {
 	// @ts-ignore
 	const [events, setEvents] = useState<Event>([]);
+	const [selectedEvent, setSelectedEvent] = useState<Event | undefined>(undefined);
 
 	useEffect(() => {
 		axios.get('http://localhost:5000/api/events')
@@ -18,9 +19,23 @@ function MyApp({Component, pageProps}: AppProps) {
 			});
 	}, []);
 
+	function handleSelectEvent(id: string) {
+		// @ts-ignore
+		setSelectedEvent(events.find(x => x.id === id));
+	}
+
+	function handleCancelSelectEvent() {
+		setSelectedEvent(undefined);
+	}
+
 	return (
 		<Layout>
-			<Component {...pageProps} events={events}/>
+			<Component {...pageProps}
+								 events={events}
+								 selectedEvent={selectedEvent}
+								 selectEvent={handleSelectEvent}
+								 cancelSelectEvent={handleCancelSelectEvent}
+			/>
 		</Layout>
 	);
 }

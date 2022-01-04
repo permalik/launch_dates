@@ -12,6 +12,10 @@ const EventForm = () => {
 				<input className={[styles.formInput, styles.cityInput].join(' ')} placeholder={'City'}/>
 				<input className={[styles.formInput, styles.stateInput].join(' ')} placeholder={'State'}/>
 				<input className={[styles.formInput, styles.dateInput].join(' ')} placeholder={'Date'}/>
+				<section className={styles.formControls}>
+					<button className={styles.submitButton} type={'submit'}>submit</button>
+					<button className={styles.cancelButton} type={'button'}>cancel</button>
+				</section>
 			</div>
 		</form>
 	);
