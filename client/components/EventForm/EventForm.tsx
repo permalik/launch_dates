@@ -28,7 +28,7 @@ const EventForm = ({closeForm, event}: Props) => {
 				<section className={styles.formControls}>
 					<button className={styles.submitButton} type={'submit'}>submit
 					</button>
-					<button className={styles.cancelButton} type={'button'}>cancel
+					<button className={styles.cancelButton} onClick={closeForm} type={'button'}>cancel
 					</button>
 				</section>
 			</div>

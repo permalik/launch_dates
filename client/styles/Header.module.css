@@ -21,23 +21,6 @@
     letter-spacing: 0.1rem;
 }
 
-.addButton {
-    background: transparent;
-    border: black solid 0.1rem;
-    border-radius: 5px;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
-    margin-left: 2rem;
-    padding: 0.25rem 0.5rem;
-    position: relative;
-    top: 0;
-    transition: top ease 0.1s;
-}
-
-.addButton:hover {
-    cursor: pointer;
-    top: -2px;
-}
-
 .nav {
     align-items: baseline;
     display: flex;

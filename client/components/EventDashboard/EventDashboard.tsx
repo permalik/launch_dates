@@ -29,7 +29,7 @@ const EventDashboard = ({
 		<section className={styles.dashboard}>
 			<EventList events={events} selectEvent={selectEvent}/>
 			<div className={styles.cardControls}>
-				{selectedEvent && <EventDetails
+				{selectedEvent && !editMode && <EventDetails
             cancelSelectEvent={cancelSelectEvent}
             event={selectedEvent}
             openForm={openForm}

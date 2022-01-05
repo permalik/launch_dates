@@ -30,8 +30,8 @@ function MyApp({Component, pageProps}: AppProps) {
 	}
 
 	function handleFormOpen(id?: string) {
-		id ? handleSelectEvent(id) : handleCancelSelectEvent();
 		setEditMode(true);
+		id ? handleSelectEvent(id) : handleCancelSelectEvent();
 	}
 
 	function handleFormClose() {
