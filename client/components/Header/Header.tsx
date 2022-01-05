@@ -2,7 +2,11 @@ import Link from 'next/link';
 
 import styles from '../../styles/Header.module.css';
 
-const Header = () => {
+interface Props {
+	openForm: () => void;
+}
+
+const Header = ({openForm}: Props) => {
 	return (
 		<header className={styles.header}>
 			<div className={styles.wrapper}>
@@ -12,7 +16,7 @@ const Header = () => {
 							R.L.D
 						</a>
 					</Link>
-					<button className={styles.addButton}>
+					<button className={styles.addButton} onClick={openForm}>
 						Add Event
 					</button>
 				</section>

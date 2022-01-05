@@ -8,18 +8,32 @@ import {Event} from '../models/event';
 import styles from '../styles/Home.module.css';
 
 interface Props {
-	events: Event[];
-	selectedEvent: Event | undefined;
-	selectEvent: (id: string) => void;
 	cancelSelectEvent: () => void;
+	closeForm: () => void;
+	editMode: boolean;
+	events: Event[];
+	openForm: (id: string) => void;
+	selectEvent: (id: string) => void;
+	selectedEvent: Event | undefined;
 }
 
 const Home: ({
+							 cancelSelectEvent,
+							 closeForm,
+							 editMode,
 							 events,
-							 selectedEvent,
+							 openForm,
 							 selectEvent,
-							 cancelSelectEvent
-						 }: Props) => JSX.Element = ({events, selectedEvent, selectEvent, cancelSelectEvent}: Props) => {
+							 selectedEvent,
+						 }: Props) => JSX.Element = ({
+																					 cancelSelectEvent,
+																					 closeForm,
+																					 editMode,
+																					 events,
+																					 openForm,
+																					 selectEvent,
+																					 selectedEvent
+																				 }: Props) => {
 	return (
 		<PrimarySection>
 			<Head>
@@ -28,7 +42,15 @@ const Home: ({
 				<link rel="icon" href="/favicon.ico"/>
 			</Head>
 			<h1 className={styles.dashboardHeading}>Launch Event Dashboard</h1>
-			<EventDashboard events={events} selectEvent={selectEvent} selectedEvent={selectedEvent} cancelSelectEvent={cancelSelectEvent}/>
+			<EventDashboard
+				cancelSelectEvent={cancelSelectEvent}
+				closeForm={closeForm}
+				editMode={editMode}
+				events={events}
+				openForm={openForm}
+				selectEvent={selectEvent}
+				selectedEvent={selectedEvent}
+			/>
 		</PrimarySection>
 	);
 };

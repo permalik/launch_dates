@@ -18,7 +18,8 @@ const EventList = ({events, selectEvent}: Props) => {
 							<p>{event.category}</p>
 							<p>{event.venue}</p>
 						</div>
-						<button className={styles.viewButton} onClick={() => selectEvent(event.id)}>
+						<button className={styles.viewButton}
+										onClick={() => selectEvent(event.id)}>
 							view
 						</button>
 					</header>

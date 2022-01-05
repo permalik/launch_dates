@@ -7,19 +7,37 @@ import EventList from '../EventList';
 import styles from '../../styles/EventDashboard.module.css';
 
 interface Props {
-	events: Event[];
-	selectedEvent: Event | undefined;
-	selectEvent: (id: string) => void;
 	cancelSelectEvent: () => void;
+	closeForm: () => void;
+	editMode: boolean;
+	events: Event[];
+	openForm: (id: string) => void;
+	selectEvent: (id: string) => void;
+	selectedEvent: Event | undefined;
 }
 
-const EventDashboard = ({events, selectedEvent, selectEvent, cancelSelectEvent}: Props) => {
+const EventDashboard = ({
+													cancelSelectEvent,
+													closeForm,
+													editMode,
+													events,
+													openForm,
+													selectEvent,
+													selectedEvent
+												}: Props) => {
 	return (
 		<section className={styles.dashboard}>
 			<EventList events={events} selectEvent={selectEvent}/>
 			<div className={styles.cardControls}>
-				{selectedEvent && <EventDetails event={selectedEvent} cancelSelectEvent={cancelSelectEvent}/>}
-				<EventForm/>
+				{selectedEvent && <EventDetails
+            cancelSelectEvent={cancelSelectEvent}
+            event={selectedEvent}
+            openForm={openForm}
+        />}
+				{editMode && <EventForm
+            event={selectedEvent}
+            closeForm={closeForm}
+        />}
 			</div>
 		</section>
 	);

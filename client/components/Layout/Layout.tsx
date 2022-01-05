@@ -2,10 +2,14 @@ import Header from '../Header';
 
 import Styles from '../../styles/Layout.module.css';
 
-const Layout = ({children}: any) => {
+interface Props {
+	openForm: () => void;
+}
+
+const Layout = ({children}: any, {openForm}: Props) => {
 	return (
 		<>
-			<Header />
+			<Header openForm={openForm}/>
 			<main className={Styles.main}>
 				{children}
 			</main>

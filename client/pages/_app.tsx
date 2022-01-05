@@ -11,6 +11,7 @@ function MyApp({Component, pageProps}: AppProps) {
 	// @ts-ignore
 	const [events, setEvents] = useState<Event>([]);
 	const [selectedEvent, setSelectedEvent] = useState<Event | undefined>(undefined);
+	const [editMode, setEditMode] = useState(false);
 
 	useEffect(() => {
 		axios.get('http://localhost:5000/api/events')
@@ -28,13 +29,25 @@ function MyApp({Component, pageProps}: AppProps) {
 		setSelectedEvent(undefined);
 	}
 
+	function handleFormOpen(id?: string) {
+		id ? handleSelectEvent(id) : handleCancelSelectEvent();
+		setEditMode(true);
+	}
+
+	function handleFormClose() {
+		setEditMode(false);
+	}
+
 	return (
-		<Layout>
+		<Layout openForm={handleFormOpen}>
 			<Component {...pageProps}
-								 events={events}
-								 selectedEvent={selectedEvent}
-								 selectEvent={handleSelectEvent}
 								 cancelSelectEvent={handleCancelSelectEvent}
+								 closeForm={handleFormClose}
+								 editMode={editMode}
+								 events={events}
+								 openForm={handleFormOpen}
+								 selectEvent={handleSelectEvent}
+								 selectedEvent={selectedEvent}
 			/>
 		</Layout>
 	);
