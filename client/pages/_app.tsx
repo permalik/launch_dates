@@ -2,6 +2,7 @@ import axios from 'axios';
 import {Event} from '../models/event';
 import type {AppProps} from 'next/app';
 import {useEffect, useState} from 'react';
+import {v4 as uuid} from 'uuid';
 
 import Layout from '../components/Layout';
 
@@ -43,7 +44,7 @@ function MyApp({Component, pageProps}: AppProps) {
 			// @ts-ignore
 			? setEvents([...events.filter(n => n.id !== event.id), event])
 			// @ts-ignore
-			: setEvents([...events, event]);
+			: setEvents([...events, {...event, id: uuid()}]);
 		setEditMode(false);
 		setSelectedEvent(event);
 	}
