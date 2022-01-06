@@ -38,11 +38,22 @@ function MyApp({Component, pageProps}: AppProps) {
 		setEditMode(false);
 	}
 
+	function handleCreateOrEditEvent(event: Event) {
+		event.id
+			// @ts-ignore
+			? setEvents([...events.filter(n => n.id !== event.id), event])
+			// @ts-ignore
+			: setEvents([...events, event]);
+		setEditMode(false);
+		setSelectedEvent(event);
+	}
+
 	return (
 		<Layout openForm={handleFormOpen}>
 			<Component {...pageProps}
 								 cancelSelectEvent={handleCancelSelectEvent}
 								 closeForm={handleFormClose}
+								 createOrEdit={handleCreateOrEditEvent}
 								 editMode={editMode}
 								 events={events}
 								 openForm={handleFormOpen}

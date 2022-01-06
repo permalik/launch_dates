@@ -12,6 +12,7 @@ import styles from '../styles/Home.module.css';
 interface Props {
 	cancelSelectEvent: () => void;
 	closeForm: () => void;
+	createOrEdit: () => void;
 	editMode: boolean;
 	events: Event[];
 	openForm: (id: string) => void;
@@ -22,6 +23,7 @@ interface Props {
 const Home: ({
 							 cancelSelectEvent,
 							 closeForm,
+							 createOrEdit,
 							 editMode,
 							 events,
 							 openForm,
@@ -30,6 +32,7 @@ const Home: ({
 						 }: Props) => JSX.Element = ({
 																					 cancelSelectEvent,
 																					 closeForm,
+																					 createOrEdit,
 																					 editMode,
 																					 events,
 																					 openForm,
@@ -48,6 +51,7 @@ const Home: ({
 			<EventDashboard
 				cancelSelectEvent={cancelSelectEvent}
 				closeForm={closeForm}
+				createOrEdit={createOrEdit}
 				editMode={editMode}
 				events={events}
 				openForm={openForm}

@@ -9,6 +9,7 @@ import styles from '../../styles/EventDashboard.module.css';
 interface Props {
 	cancelSelectEvent: () => void;
 	closeForm: () => void;
+	createOrEdit: (event: Event) => void;
 	editMode: boolean;
 	events: Event[];
 	openForm: (id: string) => void;
@@ -19,6 +20,7 @@ interface Props {
 const EventDashboard = ({
 													cancelSelectEvent,
 													closeForm,
+													createOrEdit,
 													editMode,
 													events,
 													openForm,
@@ -37,6 +39,7 @@ const EventDashboard = ({
 				{editMode && <EventForm
             event={selectedEvent}
             closeForm={closeForm}
+            createOrEdit={createOrEdit}
         />}
 			</div>
 		</section>
