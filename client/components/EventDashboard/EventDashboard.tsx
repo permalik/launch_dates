@@ -10,6 +10,7 @@ interface Props {
 	cancelSelectEvent: () => void;
 	closeForm: () => void;
 	createOrEdit: (event: Event) => void;
+	deleteEvent: (id: string) => void;
 	editMode: boolean;
 	events: Event[];
 	openForm: (id: string) => void;
@@ -21,6 +22,7 @@ const EventDashboard = ({
 													cancelSelectEvent,
 													closeForm,
 													createOrEdit,
+													deleteEvent,
 													editMode,
 													events,
 													openForm,
@@ -29,7 +31,11 @@ const EventDashboard = ({
 												}: Props) => {
 	return (
 		<section className={styles.dashboard}>
-			<EventList events={events} selectEvent={selectEvent}/>
+			<EventList
+				events={events}
+				deleteEvent={deleteEvent}
+				selectEvent={selectEvent}
+			/>
 			<div className={styles.cardControls}>
 				{selectedEvent && !editMode && <EventDetails
             cancelSelectEvent={cancelSelectEvent}

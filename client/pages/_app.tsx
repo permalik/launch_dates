@@ -49,12 +49,18 @@ function MyApp({Component, pageProps}: AppProps) {
 		setSelectedEvent(event);
 	}
 
+	function handleDeleteEvent(id: string) {
+		// @ts-ignore
+		setEvents([...events.filter(x => x.id !== id)]);
+	}
+
 	return (
 		<Layout openForm={handleFormOpen}>
 			<Component {...pageProps}
 								 cancelSelectEvent={handleCancelSelectEvent}
 								 closeForm={handleFormClose}
 								 createOrEdit={handleCreateOrEditEvent}
+								 deleteEvent={handleDeleteEvent}
 								 editMode={editMode}
 								 events={events}
 								 openForm={handleFormOpen}

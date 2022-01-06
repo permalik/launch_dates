@@ -13,6 +13,7 @@ interface Props {
 	cancelSelectEvent: () => void;
 	closeForm: () => void;
 	createOrEdit: () => void;
+	deleteEvent: (id: string) => void;
 	editMode: boolean;
 	events: Event[];
 	openForm: (id: string) => void;
@@ -24,6 +25,7 @@ const Home: ({
 							 cancelSelectEvent,
 							 closeForm,
 							 createOrEdit,
+							 deleteEvent,
 							 editMode,
 							 events,
 							 openForm,
@@ -33,6 +35,7 @@ const Home: ({
 																					 cancelSelectEvent,
 																					 closeForm,
 																					 createOrEdit,
+																					 deleteEvent,
 																					 editMode,
 																					 events,
 																					 openForm,
@@ -52,6 +55,7 @@ const Home: ({
 				cancelSelectEvent={cancelSelectEvent}
 				closeForm={closeForm}
 				createOrEdit={createOrEdit}
+				deleteEvent={deleteEvent}
 				editMode={editMode}
 				events={events}
 				openForm={openForm}

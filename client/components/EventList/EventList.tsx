@@ -1,13 +1,14 @@
 import {Event} from '../../models/event';
 
-import styles from '../../styles/EventDashboard.module.css';
+import styles from '../../styles/EventList.module.css';
 
 interface Props {
 	events: Event[];
+	deleteEvent: (id: string) => void;
 	selectEvent: (id: string) => void;
 }
 
-const EventList = ({events, selectEvent}: Props) => {
+const EventList = ({events, deleteEvent, selectEvent}: Props) => {
 	return (
 		<ul className={styles.cardList}>
 			{events.map((event: any) => (
@@ -18,10 +19,20 @@ const EventList = ({events, selectEvent}: Props) => {
 							<p>{event.category}</p>
 							<p>{event.venue}</p>
 						</div>
-						<button className={styles.viewButton}
-										onClick={() => selectEvent(event.id)}>
-							view
-						</button>
+						<div className={styles.buttonContainer}>
+							<button
+								className={styles.viewButton}
+								onClick={() => selectEvent(event.id)}
+							>
+								view
+							</button>
+							<button
+								className={styles.deleteButton}
+								onClick={() => deleteEvent(event.id)}
+							>
+								delete
+							</button>
+						</div>
 					</header>
 					<section className={styles.cardBody}>
 						<p>{event.description}</p>
