@@ -37,6 +37,7 @@ const EventDashboard = ({
 				events={events}
 				deleteEvent={deleteEvent}
 				selectEvent={selectEvent}
+				submitting={submitting}
 			/>
 			<div className={styles.cardControls}>
 				{selectedEvent && !editMode && <EventDetails

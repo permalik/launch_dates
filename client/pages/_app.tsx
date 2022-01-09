@@ -69,8 +69,11 @@ function MyApp({Component, pageProps}: AppProps) {
 	}
 
 	function handleDeleteEvent(id: string) {
-		// @ts-ignore
-		setEvents([...events.filter(x => x.id !== id)]);
+		setSubmitting(true);
+		agent.Events.delete(id).then(() => {
+			setEvents([...events.filter(x => x.id !== id)]);
+			setSubmitting(false);
+		});
 	}
 
 	if (loading) return <Loading content={'Loading App'}/>;
