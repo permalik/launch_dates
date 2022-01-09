@@ -5,6 +5,7 @@ import {useEffect, useState} from 'react';
 import {v4 as uuid} from 'uuid';
 
 import Layout from '../components/Layout';
+import Loading from '../components/Loading';
 
 import '../styles/globals.css';
 
@@ -13,6 +14,7 @@ function MyApp({Component, pageProps}: AppProps) {
 	const [events, setEvents] = useState<Event[]>([]);
 	const [selectedEvent, setSelectedEvent] = useState<Event | undefined>(undefined);
 	const [editMode, setEditMode] = useState(false);
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		agent.Events.list()
@@ -23,6 +25,7 @@ function MyApp({Component, pageProps}: AppProps) {
 					events.push(event);
 				});
 				setEvents(events);
+				setLoading(false);
 			});
 	}, []);
 
@@ -58,6 +61,8 @@ function MyApp({Component, pageProps}: AppProps) {
 		// @ts-ignore
 		setEvents([...events.filter(x => x.id !== id)]);
 	}
+
+	if (loading) return <Loading content={'Loading App'}/>;
 
 	return (
 		<Layout openForm={handleFormOpen}>
