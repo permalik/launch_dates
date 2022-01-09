@@ -87,6 +87,7 @@ const EventForm = ({closeForm, createOrEdit, event: selectedEvent}: Props) => {
 					onChange={handleInputChange}
 					placeholder={'Date'}
 					value={event.date}
+					type={'date'}
 				/>
 				<section className={styles.formControls}>
 					<button className={styles.submitButton} type={'submit'}>submit

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import agent from './api/agent';
 import {Event} from '../models/event';
 import type {AppProps} from 'next/app';
 import {useEffect, useState} from 'react';
@@ -10,14 +10,19 @@ import '../styles/globals.css';
 
 function MyApp({Component, pageProps}: AppProps) {
 	// @ts-ignore
-	const [events, setEvents] = useState<Event>([]);
+	const [events, setEvents] = useState<Event[]>([]);
 	const [selectedEvent, setSelectedEvent] = useState<Event | undefined>(undefined);
 	const [editMode, setEditMode] = useState(false);
 
 	useEffect(() => {
-		axios.get('http://localhost:5000/api/events')
+		agent.Events.list()
 			.then(response => {
-				setEvents(response.data);
+				let events: Event[] = [];
+				response.forEach((event: any) => {
+					event.date = event.date.split('T')[0];
+					events.push(event);
+				});
+				setEvents(events);
 			});
 	}, []);
 
