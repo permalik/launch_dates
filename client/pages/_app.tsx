@@ -15,6 +15,7 @@ function MyApp({Component, pageProps}: AppProps) {
 	const [selectedEvent, setSelectedEvent] = useState<Event | undefined>(undefined);
 	const [editMode, setEditMode] = useState(false);
 	const [loading, setLoading] = useState(true);
+	const [submitting, setSubmitting] = useState(false);
 
 	useEffect(() => {
 		agent.Events.list()
@@ -48,13 +49,23 @@ function MyApp({Component, pageProps}: AppProps) {
 	}
 
 	function handleCreateOrEditEvent(event: Event) {
-		event.id
-			// @ts-ignore
-			? setEvents([...events.filter(n => n.id !== event.id), event])
-			// @ts-ignore
-			: setEvents([...events, {...event, id: uuid()}]);
-		setEditMode(false);
-		setSelectedEvent(event);
+		setSubmitting(true);
+		if (event.id) {
+			agent.Events.update(event).then(() => {
+				setEvents([...events.filter(n => n.id !== event.id), event]);
+				setSelectedEvent(event);
+				setEditMode(false);
+				setSubmitting(false);
+			});
+		} else {
+			event.id = uuid();
+			agent.Events.create(event).then(() => {
+				setEvents([...events, event]);
+				setSelectedEvent(event);
+				setEditMode(false);
+				setSubmitting(false);
+			});
+		}
 	}
 
 	function handleDeleteEvent(id: string) {
@@ -76,6 +87,7 @@ function MyApp({Component, pageProps}: AppProps) {
 								 openForm={handleFormOpen}
 								 selectEvent={handleSelectEvent}
 								 selectedEvent={selectedEvent}
+								 submitting={submitting}
 			/>
 		</Layout>
 	);

@@ -19,6 +19,7 @@ interface Props {
 	openForm: (id: string) => void;
 	selectEvent: (id: string) => void;
 	selectedEvent: Event | undefined;
+	submitting: boolean;
 }
 
 const Home: ({
@@ -31,6 +32,7 @@ const Home: ({
 							 openForm,
 							 selectEvent,
 							 selectedEvent,
+							 submitting
 						 }: Props) => JSX.Element = ({
 																					 cancelSelectEvent,
 																					 closeForm,
@@ -40,7 +42,8 @@ const Home: ({
 																					 events,
 																					 openForm,
 																					 selectEvent,
-																					 selectedEvent
+																					 selectedEvent,
+																					 submitting
 																				 }: Props) => {
 	return (
 		<PrimarySection>
@@ -61,6 +64,7 @@ const Home: ({
 				openForm={openForm}
 				selectEvent={selectEvent}
 				selectedEvent={selectedEvent}
+				submitting={submitting}
 			/>
 		</PrimarySection>
 	);

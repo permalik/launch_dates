@@ -7,9 +7,15 @@ interface Props {
 	event: Event | undefined;
 	closeForm: () => void;
 	createOrEdit: (event: Event) => void;
+	submitting: boolean;
 }
 
-const EventForm = ({closeForm, createOrEdit, event: selectedEvent}: Props) => {
+const EventForm = ({
+										 closeForm,
+										 createOrEdit,
+										 event: selectedEvent,
+										 submitting
+									 }: Props) => {
 	const initialState = selectedEvent ?? {
 		id: '',
 		title: '',
@@ -90,7 +96,8 @@ const EventForm = ({closeForm, createOrEdit, event: selectedEvent}: Props) => {
 					type={'date'}
 				/>
 				<section className={styles.formControls}>
-					<button className={styles.submitButton} type={'submit'}>submit
+					<button className={styles.submitButton} type={'submit'}>
+						{submitting ? 'Loading...' : 'submit'}
 					</button>
 					<button className={styles.cancelButton} onClick={closeForm}
 									type={'button'}>cancel

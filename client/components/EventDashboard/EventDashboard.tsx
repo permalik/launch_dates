@@ -16,6 +16,7 @@ interface Props {
 	openForm: (id: string) => void;
 	selectEvent: (id: string) => void;
 	selectedEvent: Event | undefined;
+	submitting: boolean;
 }
 
 const EventDashboard = ({
@@ -27,7 +28,8 @@ const EventDashboard = ({
 													events,
 													openForm,
 													selectEvent,
-													selectedEvent
+													selectedEvent,
+													submitting
 												}: Props) => {
 	return (
 		<section className={styles.dashboard}>
@@ -43,9 +45,10 @@ const EventDashboard = ({
             openForm={openForm}
         />}
 				{editMode && <EventForm
-            event={selectedEvent}
             closeForm={closeForm}
             createOrEdit={createOrEdit}
+            event={selectedEvent}
+            submitting={submitting}
         />}
 			</div>
 		</section>

@@ -28,7 +28,11 @@ const requests = {
 };
 
 const Events = {
-	list: () => requests.get<Event[]>('/events')
+	list: () => requests.get<Event[]>('/events'),
+	details: (id: string) => requests.get<Event>(`/events/${id}`),
+	create: (event: Event) => axios.post<void>('/events', event),
+	update: (event: Event) => axios.put<void>(`/events/${event.id}`, event),
+	delete: (id: string) => axios.delete<void>(`/events/${id}`)
 };
 
 const agent = {
