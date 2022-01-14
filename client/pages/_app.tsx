@@ -1,99 +1,31 @@
-import agent from './api/agent';
-import {Event} from '../models/event';
+import {observer} from 'mobx-react-lite';
 import type {AppProps} from 'next/app';
-import {useEffect, useState} from 'react';
-import {v4 as uuid} from 'uuid';
+import {useEffect} from 'react';
+import {store, StoreContext, useStore} from '../stores/store';
 
 import Layout from '../components/Layout';
 import Loading from '../components/Loading';
 
 import '../styles/globals.css';
+import styles from '../styles/Toolbar.module.css';
 
 function MyApp({Component, pageProps}: AppProps) {
-	// @ts-ignore
-	const [events, setEvents] = useState<Event[]>([]);
-	const [selectedEvent, setSelectedEvent] = useState<Event | undefined>(undefined);
-	const [editMode, setEditMode] = useState(false);
-	const [loading, setLoading] = useState(true);
-	const [submitting, setSubmitting] = useState(false);
+	const {eventStore} = useStore();
+	const {events} = eventStore;
 
 	useEffect(() => {
-		agent.Events.list()
-			.then(response => {
-				let events: Event[] = [];
-				response.forEach((event: any) => {
-					event.date = event.date.split('T')[0];
-					events.push(event);
-				});
-				setEvents(events);
-				setLoading(false);
-			});
-	}, []);
+		eventStore.loadEvents();
+	}, [eventStore]);
 
-	function handleSelectEvent(id: string) {
-		// @ts-ignore
-		setSelectedEvent(events.find((x: { id: string; }) => x.id === id));
-	}
-
-	function handleCancelSelectEvent() {
-		setSelectedEvent(undefined);
-	}
-
-	function handleFormOpen(id?: string) {
-		setEditMode(true);
-		id ? handleSelectEvent(id) : handleCancelSelectEvent();
-	}
-
-	function handleFormClose() {
-		setEditMode(false);
-	}
-
-	function handleCreateOrEditEvent(event: Event) {
-		setSubmitting(true);
-		if (event.id) {
-			agent.Events.update(event).then(() => {
-				setEvents([...events.filter(n => n.id !== event.id), event]);
-				setSelectedEvent(event);
-				setEditMode(false);
-				setSubmitting(false);
-			});
-		} else {
-			event.id = uuid();
-			agent.Events.create(event).then(() => {
-				setEvents([...events, event]);
-				setSelectedEvent(event);
-				setEditMode(false);
-				setSubmitting(false);
-			});
-		}
-	}
-
-	function handleDeleteEvent(id: string) {
-		setSubmitting(true);
-		agent.Events.delete(id).then(() => {
-			setEvents([...events.filter(x => x.id !== id)]);
-			setSubmitting(false);
-		});
-	}
-
-	if (loading) return <Loading content={'Loading App'}/>;
+	if (eventStore.loadingInitial) return <Loading content={'Loading App'}/>;
 
 	return (
-		<Layout openForm={handleFormOpen}>
-			<Component {...pageProps}
-								 cancelSelectEvent={handleCancelSelectEvent}
-								 closeForm={handleFormClose}
-								 createOrEdit={handleCreateOrEditEvent}
-								 deleteEvent={handleDeleteEvent}
-								 editMode={editMode}
-								 events={events}
-								 openForm={handleFormOpen}
-								 selectEvent={handleSelectEvent}
-								 selectedEvent={selectedEvent}
-								 submitting={submitting}
-			/>
-		</Layout>
+		<StoreContext.Provider value={store}>
+			<Layout>
+				<Component {...pageProps}/>
+			</Layout>
+		</StoreContext.Provider>
 	);
 }
 
-export default MyApp;
+export default observer(MyApp);

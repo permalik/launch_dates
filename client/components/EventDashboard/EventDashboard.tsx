@@ -1,4 +1,5 @@
-import {Event} from '../../models/event';
+import {observer} from 'mobx-react-lite';
+import {useStore} from '../../stores/store';
 
 import EventDetails from '../EventDetails';
 import EventForm from '../EventForm';
@@ -6,54 +7,19 @@ import EventList from '../EventList';
 
 import styles from '../../styles/EventDashboard.module.css';
 
-interface Props {
-	cancelSelectEvent: () => void;
-	closeForm: () => void;
-	createOrEdit: (event: Event) => void;
-	deleteEvent: (id: string) => void;
-	editMode: boolean;
-	events: Event[];
-	openForm: (id: string) => void;
-	selectEvent: (id: string) => void;
-	selectedEvent: Event | undefined;
-	submitting: boolean;
-}
+const EventDashboard = () => {
+	const {eventStore} = useStore();
+	const {selectedEvent, editMode} = eventStore;
 
-const EventDashboard = ({
-													cancelSelectEvent,
-													closeForm,
-													createOrEdit,
-													deleteEvent,
-													editMode,
-													events,
-													openForm,
-													selectEvent,
-													selectedEvent,
-													submitting
-												}: Props) => {
 	return (
 		<section className={styles.dashboard}>
-			<EventList
-				events={events}
-				deleteEvent={deleteEvent}
-				selectEvent={selectEvent}
-				submitting={submitting}
-			/>
+			<EventList/>
 			<div className={styles.cardControls}>
-				{selectedEvent && !editMode && <EventDetails
-            cancelSelectEvent={cancelSelectEvent}
-            event={selectedEvent}
-            openForm={openForm}
-        />}
-				{editMode && <EventForm
-            closeForm={closeForm}
-            createOrEdit={createOrEdit}
-            event={selectedEvent}
-            submitting={submitting}
-        />}
+				{selectedEvent && !editMode && <EventDetails/>}
+				{editMode && <EventForm/>}
 			</div>
 		</section>
 	);
 };
 
-export default EventDashboard;
+export default observer(EventDashboard);

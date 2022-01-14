@@ -2,20 +2,19 @@ import {Event} from '../../models/event';
 import {ChangeEvent, useState} from 'react';
 
 import styles from '../../styles/EventForm.module.css';
+import {useStore} from '../../stores/store';
+import {observer} from 'mobx-react-lite';
 
-interface Props {
-	event: Event | undefined;
-	closeForm: () => void;
-	createOrEdit: (event: Event) => void;
-	submitting: boolean;
-}
+const EventForm = () => {
+	const {eventStore} = useStore();
+	const {
+		closeForm,
+		createEvent,
+		loading,
+		selectedEvent,
+		updateEvent
+	} = eventStore;
 
-const EventForm = ({
-										 closeForm,
-										 createOrEdit,
-										 event: selectedEvent,
-										 submitting
-									 }: Props) => {
 	const initialState = selectedEvent ?? {
 		id: '',
 		title: '',
@@ -31,8 +30,7 @@ const EventForm = ({
 
 	function handleSubmit(e: any) {
 		e.preventDefault();
-		createOrEdit(event);
-		console.log(typeof createOrEdit);
+		event.id ? updateEvent(event) : createEvent(event);
 	}
 
 	function handleInputChange(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
@@ -97,7 +95,7 @@ const EventForm = ({
 				/>
 				<section className={styles.formControls}>
 					<button className={styles.submitButton} type={'submit'}>
-						{submitting ? 'Loading...' : 'submit'}
+						{loading ? 'Loading...' : 'submit'}
 					</button>
 					<button className={styles.cancelButton} onClick={closeForm}
 									type={'button'}>cancel
@@ -108,4 +106,4 @@ const EventForm = ({
 	);
 };
 
-export default EventForm;
+export default observer(EventForm);

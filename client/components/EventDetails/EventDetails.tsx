@@ -1,14 +1,15 @@
-import {Event} from '../../models/event';
-
 import styles from '../../styles/EventDetails.module.css';
+import {useStore} from '../../stores/store';
 
-interface Props {
-	cancelSelectEvent: () => void;
-	event: Event;
-	openForm: (id: string) => void;
-}
+import Loading from '../Loading';
 
-const EventDetails = ({event, cancelSelectEvent, openForm}: Props) => {
+const EventDetails = () => {
+
+	const {eventStore} = useStore();
+	const {cancelSelectedEvent, openForm, selectedEvent: event} = eventStore;
+
+	if (!event) return <Loading content={'Loading...'}/>;
+
 	return (
 		<article className={styles.eventCard} key={event.id}>
 			<div className={styles.wrapper}>
@@ -33,7 +34,7 @@ const EventDetails = ({event, cancelSelectEvent, openForm}: Props) => {
 									onClick={() => openForm(event.id)}>
 						edit
 					</button>
-					<button className={styles.cancelButton} onClick={cancelSelectEvent}>
+					<button className={styles.cancelButton} onClick={cancelSelectedEvent}>
 						cancel
 					</button>
 				</section>

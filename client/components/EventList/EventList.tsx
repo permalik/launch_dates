@@ -1,16 +1,13 @@
+import {observer} from 'mobx-react-lite';
 import {SyntheticEvent, useState} from 'react';
-import {Event} from '../../models/event';
+import {useStore} from '../../stores/store';
 
 import styles from '../../styles/EventList.module.css';
 
-interface Props {
-	events: Event[];
-	deleteEvent: (id: string) => void;
-	selectEvent: (id: string) => void;
-	submitting: boolean;
-}
+const EventList = () => {
+	const {eventStore} = useStore();
+	const {deleteEvent, events, loading} = eventStore;
 
-const EventList = ({events, deleteEvent, selectEvent, submitting}: Props) => {
 	const [target, setTarget] = useState('');
 
 	function handleEventDelete(e: SyntheticEvent<HTMLButtonElement>, id: string) {
@@ -20,7 +17,7 @@ const EventList = ({events, deleteEvent, selectEvent, submitting}: Props) => {
 
 	return (
 		<ul className={styles.cardList}>
-			{events.map((event: any) => (
+			{eventStore.events.map((event: any) => (
 				<li className={styles.eventCard} key={event.id}>
 					<header className={styles.cardHeader}>
 						<div>
@@ -31,7 +28,7 @@ const EventList = ({events, deleteEvent, selectEvent, submitting}: Props) => {
 						<div className={styles.buttonContainer}>
 							<button
 								className={styles.viewButton}
-								onClick={() => selectEvent(event.id)}
+								onClick={() => eventStore.selectEvent(event.id)}
 							>
 								view
 							</button>
@@ -40,7 +37,7 @@ const EventList = ({events, deleteEvent, selectEvent, submitting}: Props) => {
 								name={event.id}
 								onClick={(e) => handleEventDelete(e, event.id)}
 							>
-								{submitting && target === event.id ? 'Loading...' : 'delete'}
+								{loading && target === event.id ? 'Loading...' : 'delete'}
 							</button>
 						</div>
 					</header>
@@ -53,4 +50,4 @@ const EventList = ({events, deleteEvent, selectEvent, submitting}: Props) => {
 	);
 };
 
-export default EventList;
+export default observer(EventList);
