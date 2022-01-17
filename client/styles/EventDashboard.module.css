@@ -1,3 +1,7 @@
+.headingOne {
+    margin-bottom: 2rem;
+}
+
 .dashboard {
     display: grid;
     gap: 1rem;
@@ -8,4 +12,12 @@
     .dashboard {
         grid-template-columns: 60% 40%;
     }
+}
+
+.cardControls {
+    border: none;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+    padding: 1rem;
+    text-align: center;
 }

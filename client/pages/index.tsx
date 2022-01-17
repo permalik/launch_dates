@@ -1,29 +1,12 @@
 import {observer} from 'mobx-react-lite';
-import {Event} from '../models/event';
 import Head from 'next/head';
+import Link from 'next/link';
 
-import EventDashboard from '../components/EventDashboard';
 import PrimarySection from '../components/PrimarySection';
-import Toolbar from '../components/Toolbar';
 
 import styles from '../styles/Home.module.css';
-import {useStore} from '../stores/store';
 
-interface Props {
-	deleteEvent: (id: string) => void;
-	events: Event[];
-	submitting: boolean;
-}
-
-const Home: ({
-							 deleteEvent,
-							 events,
-							 submitting
-						 }: Props) => JSX.Element = ({
-																					 deleteEvent,
-																					 events,
-																					 submitting
-																				 }: Props) => {
+const Home = () => {
 	return (
 		<PrimarySection>
 			<Head>
@@ -31,13 +14,11 @@ const Home: ({
 				<meta name="description" content="Social app for rocket launch dates"/>
 				<link rel="icon" href="/favicon.ico"/>
 			</Head>
-			<Toolbar/>
-			<h1 className={styles.dashboardHeading}>Launch Event Dashboard</h1>
-			<EventDashboard
-				deleteEvent={deleteEvent}
-				events={events}
-				submitting={submitting}
-			/>
+			<Link href={'/eventDashboard'} passHref>
+				<button className={styles.dashboardButton}>
+					Launch Dashboard
+				</button>
+			</Link>
 		</PrimarySection>
 	);
 };

@@ -6,19 +6,20 @@ import {
 } from 'mobx';
 import {Event} from '../models/event';
 import agent from '../pages/api/agent';
-import {v4 as uuid} from 'uuid';
 
 export default class EventStore {
 	events: Event[] = [];
+	eventRegistry = new Map<string, Event>();
 	selectedEvent: Event | undefined = undefined;
 	editMode = false;
 	loading = false;
-	loadingInitial = false;
+	loadingInitial = true;
 
 	constructor() {
 		makeAutoObservable(this, {
 			editMode: observable,
 			events: observable,
+			loadEvent: action.bound,
 			loadEvents: action.bound,
 			loadingInitial: observable,
 			selectedEvent: observable,
@@ -26,16 +27,17 @@ export default class EventStore {
 		});
 	}
 
-	async loadEvents() {
-		runInAction(() => {
-			this.setLoadingInitial(true);
-		});
+	get eventsByDate() {
+		return Array.from(this.eventRegistry.values()).sort((a, b) =>
+			Date.parse(a.date) - Date.parse(b.date));
+	}
 
+	async loadEvents() {
+		this.loadingInitial = true;
 		try {
 			const events = await agent.Events.list();
 			events.forEach((event: any) => {
-				event.date = event.date.split('T')[0];
-				this.events.push(event);
+				this.setEvent(event);
 			});
 			runInAction(() => {
 				this.setLoadingInitial(false);
@@ -48,34 +50,50 @@ export default class EventStore {
 		}
 	}
 
+	async loadEvent(id: string) {
+		let event = this.getEvent(id);
+		if (event) {
+			this.selectedEvent = event;
+			return event;
+		} else {
+			this.loadingInitial = true;
+			try {
+				// @ts-ignore
+				event = await agent.Events.details(id);
+				// @ts-ignore
+				this.setEvent(event);
+				runInAction(() => {
+					this.selectedEvent = event;
+				});
+				this.setLoadingInitial(false);
+				return event;
+			} catch (error) {
+				console.log(error);
+				this.setLoadingInitial(false);
+			}
+		}
+	}
+
+	private setEvent(event: Event) {
+		event.date = event.date.split('T')[0];
+		this.eventRegistry.set(event.id, event);
+	}
+
+	private getEvent(id: string) {
+		return this.eventRegistry.get(id);
+	}
+
 	setLoadingInitial(state: boolean) {
 		this.loadingInitial = state;
 	}
 
-	selectEvent = (id: string) => {
-		this.selectedEvent = this.events.find(n => n.id === id);
-	};
-
-	cancelSelectedEvent = () => {
-		this.selectedEvent = undefined;
-	};
-
-	openForm = (id?: string) => {
-		id ? this.selectEvent(id) : this.cancelSelectedEvent();
-		this.editMode = true;
-	};
-
-	closeForm = () => {
-		this.editMode = false;
-	};
-
 	createEvent = async (event: Event) => {
 		this.loading = true;
-		event.id = uuid();
 		try {
+			// @ts-ignore
 			await agent.Events.create(event);
 			runInAction(() => {
-				this.events.push(event);
+				this.eventRegistry.set(event.id, event);
 				this.selectedEvent = event;
 				this.editMode = false;
 				this.loading = false;
@@ -91,9 +109,10 @@ export default class EventStore {
 	updateEvent = async (event: Event) => {
 		this.loading = true;
 		try {
+			// @ts-ignore
 			await agent.Events.update(event);
 			runInAction(() => {
-				this.events = [...this.events.filter(n => n.id !== event.id), event];
+				this.eventRegistry.set(event.id, event);
 				this.selectedEvent = event;
 				this.editMode = false;
 				this.loading = false;
@@ -111,7 +130,7 @@ export default class EventStore {
 		try {
 			await agent.Events.delete(id);
 			runInAction(() => {
-				this.events = [...this.events.filter(n => n.id !== id)];
+				this.eventRegistry.delete(id);
 				this.loading = false;
 			});
 		} catch (error) {

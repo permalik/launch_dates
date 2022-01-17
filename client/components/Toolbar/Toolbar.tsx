@@ -1,17 +1,27 @@
 import {observer} from 'mobx-react-lite';
-import {useStore} from '../../stores/store';
+import Link from 'next/link';
 
 import styles from '../../styles/Toolbar.module.css';
 
 const Toolbar = () => {
-	const {eventStore} = useStore();
 
 	return (
 		<nav className={styles.toolbarNav}>
-			<button className={styles.createButton}
-							onClick={() => eventStore.openForm()}>
-				Create
-			</button>
+			<Link href={'/'} passHref>
+				<button className={[styles.eventButton, styles.dashboard].join(' ')}>
+					Home
+				</button>
+			</Link>
+			<Link href={'/createEvent'} passHref>
+				<button className={[styles.eventButton, styles.createEvent].join(' ')}>
+					Create Event
+				</button>
+			</Link>
+			<Link href={'/eventDashboard'} passHref>
+				<button className={[styles.eventButton, styles.viewAll].join(' ')}>
+					View All
+				</button>
+			</Link>
 		</nav>
 	);
 };

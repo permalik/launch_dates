@@ -1,4 +1,5 @@
 import {observer} from 'mobx-react-lite';
+import Link from 'next/link';
 import {SyntheticEvent, useState} from 'react';
 import {useStore} from '../../stores/store';
 
@@ -6,7 +7,7 @@ import styles from '../../styles/EventList.module.css';
 
 const EventList = () => {
 	const {eventStore} = useStore();
-	const {deleteEvent, events, loading} = eventStore;
+	const {deleteEvent, eventsByDate, loading} = eventStore;
 
 	const [target, setTarget] = useState('');
 
@@ -17,7 +18,7 @@ const EventList = () => {
 
 	return (
 		<ul className={styles.cardList}>
-			{eventStore.events.map((event: any) => (
+			{eventsByDate.map((event: any) => (
 				<li className={styles.eventCard} key={event.id}>
 					<header className={styles.cardHeader}>
 						<div>
@@ -26,12 +27,11 @@ const EventList = () => {
 							<p>{event.venue}</p>
 						</div>
 						<div className={styles.buttonContainer}>
-							<button
-								className={styles.viewButton}
-								onClick={() => eventStore.selectEvent(event.id)}
-							>
-								view
-							</button>
+							<Link href={`/events/${event.id}`} passHref>
+								<button className={styles.viewButton}>
+									view
+								</button>
+							</Link>
 							<button
 								className={styles.deleteButton}
 								name={event.id}

@@ -1,3 +1,3 @@
-import EventDashboard from './EventDashboard';
+import EventDashboard from '../../pages/eventDashboard';
 
 export default EventDashboard;

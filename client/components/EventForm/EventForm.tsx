@@ -1,14 +1,13 @@
-import {Event} from '../../models/event';
+import {observer} from 'mobx-react-lite';
+import Link from 'next/link';
 import {ChangeEvent, useState} from 'react';
+import {useStore} from '../../stores/store';
 
 import styles from '../../styles/EventForm.module.css';
-import {useStore} from '../../stores/store';
-import {observer} from 'mobx-react-lite';
 
 const EventForm = () => {
 	const {eventStore} = useStore();
 	const {
-		closeForm,
 		createEvent,
 		loading,
 		selectedEvent,
@@ -97,9 +96,11 @@ const EventForm = () => {
 					<button className={styles.submitButton} type={'submit'}>
 						{loading ? 'Loading...' : 'submit'}
 					</button>
-					<button className={styles.cancelButton} onClick={closeForm}
-									type={'button'}>cancel
-					</button>
+					<Link href={'/eventDashboard'} passHref>
+						<button className={styles.cancelButton}
+										type={'button'}>cancel
+						</button>
+					</Link>
 				</section>
 			</div>
 		</form>
