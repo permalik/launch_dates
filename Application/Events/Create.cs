@@ -1,16 +1,25 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Domain;
+using FluentValidation;
 using MediatR;
 using Persistence;
 
 namespace Application.Events
 {
-    public static class Create
+    public class Create
     {
         public class Command : IRequest
         {
             public Event Event { get; set; }
+        }
+
+        public class CommandValidator : AbstractValidator<Command>
+        {
+            public CommandValidator()
+            {
+                RuleFor(n => n.Event).SetValidator(new EventValidator());
+            }
         }
 
         public class Handler : IRequestHandler<Command>

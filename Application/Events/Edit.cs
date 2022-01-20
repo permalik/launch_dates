@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using Domain;
+using FluentValidation;
 using MediatR;
 using Persistence;
 
@@ -13,7 +14,15 @@ namespace Application.Events
         {
             public Event Event { get; set; }
         }
-        
+
+        public class CommandValidator : AbstractValidator<Create.Command>
+        {
+            public CommandValidator()
+            {
+                RuleFor(n => n.Event).SetValidator(new EventValidator());
+            }
+        }
+
         public class Handler : IRequestHandler<Command>
         {
             private readonly DataContext _context;
@@ -32,7 +41,7 @@ namespace Application.Events
                 _mapper.Map(request.Event, @event);
 
                 await _context.SaveChangesAsync();
-                
+
                 return Unit.Value;
             }
         }

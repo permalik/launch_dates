@@ -3,6 +3,7 @@ import {useEffect} from 'react';
 import {useStore} from '../stores/store';
 
 import EventList from '../components/EventList';
+import EventFilters from '../components/EventFilters';
 import Loading from '../components/Loading';
 import PrimarySection from '../components/PrimarySection';
 import Toolbar from '../components/Toolbar';
@@ -25,9 +26,7 @@ const EventDashboard = () => {
 			<Toolbar/>
 			<section className={styles.dashboard}>
 				<EventList/>
-				<div className={styles.cardControls}>
-					Event Filters
-				</div>
+				<EventFilters/>
 			</section>
 		</PrimarySection>
 	);
