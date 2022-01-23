@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Core;
 using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -12,9 +13,11 @@ namespace Application.Events
 {
     public class List
     {
-        public class Query : IRequest<List<Event>> {}
-        
-        public class Handler : IRequestHandler<Query, List<Event>>
+        public class Query : IRequest<Result<List<Event>>>
+        {
+        }
+
+        public class Handler : IRequestHandler<Query, Result<List<Event>>>
         {
             private readonly DataContext _context;
             private readonly ILogger<List> _logger;
@@ -25,24 +28,9 @@ namespace Application.Events
                 _logger = logger;
             }
 
-            public async Task<List<Event>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<List<Event>>> Handle(Query request, CancellationToken cancellationToken)
             {
-
-                /*try
-                {
-                    for (var i = 0; i < 10; i++)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        await Task.Delay(1000, cancellationToken);
-                        _logger.LogInformation($"Task {i} has completed");
-                    }
-                }
-                catch (Exception ex) when(ex is TaskCanceledException)
-                {
-                    _logger.LogInformation("Task was cancelled");
-                }*/
-                
-                return await _context.Events.ToListAsync();
+                return Result<List<Event>>.Success(await _context.Events.ToListAsync(cancellationToken));
             }
         }
     }

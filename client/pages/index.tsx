@@ -19,6 +19,11 @@ const Home = () => {
 					Launch Dashboard
 				</button>
 			</Link>
+			<Link href={'/errors/TestError'} passHref>
+				<button>
+					Error Testing
+				</button>
+			</Link>
 		</PrimarySection>
 	);
 };
