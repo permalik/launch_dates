@@ -1,8 +1,9 @@
-import {Field, Form, Formik} from 'formik';
+import {ErrorMessage, Field, Form, Formik} from 'formik';
 import {observer} from 'mobx-react-lite';
 import Link from 'next/link';
 import {ChangeEvent, useState} from 'react';
 import {useStore} from '../../stores/store';
+import * as Yup from 'yup';
 
 import styles from '../../styles/EventForm.module.css';
 
@@ -28,6 +29,10 @@ const EventForm = () => {
 
 	const [event, setEvent] = useState(initialState);
 
+	const validationSchema = Yup.object({
+		title: Yup.string().required('The event title is required')
+	})
+
 	// function handleSubmit(e: any) {
 	// 	e.preventDefault();
 	// 	event.id ? updateEvent(event) : createEvent(event);
@@ -39,18 +44,24 @@ const EventForm = () => {
 	// }
 
 	return (
-		<Formik enableReinitialize initialValues={event}
-						onSubmit={values => console.log(values)}>
+		<Formik
+						enableReinitialize
+						initialValues={event}
+						onSubmit={values => console.log(values)}
+						validationSchema={validationSchema}>
 			{({handleSubmit}) => (
 				<Form autoComplete={'off'} className={styles.eventForm}
 							onSubmit={handleSubmit}>
 					<h2 className={styles.formHeading}>Configure Event</h2>
 					<div className={styles.wrapper}>
-						<Field
-							className={[styles.formInput, styles.titleInput].join(' ')}
-							name={'title'}
-							placeholder={'Title'}
-						/>
+						<div>
+							<Field
+								className={[styles.formInput, styles.titleInput].join(' ')}
+								name={'title'}
+								placeholder={'title'}
+							/>
+							<ErrorMessage name='title' render={error => <div>{error}</div>} />
+						</div>
 						<Field
 							className={[styles.formInput, styles.categoryInput].join(' ')}
 							name={'category'}
