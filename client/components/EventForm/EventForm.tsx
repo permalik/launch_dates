@@ -1,4 +1,4 @@
-import { Formik } from 'formik';
+import {Field, Form, Formik} from 'formik';
 import {observer} from 'mobx-react-lite';
 import Link from 'next/link';
 import {ChangeEvent, useState} from 'react';
@@ -39,76 +39,63 @@ const EventForm = () => {
 	// }
 
 	return (
-			<Formik initialValues={event} onSubmit={values => console.log(values)}>
-				{({values: event, handleChange, handleSubmit}) => (
-					<form autoComplete={'off'} className={styles.eventForm}
-								onSubmit={handleSubmit}>
-						<h2 className={styles.formHeading}>Configure Event</h2>
-						<div className={styles.wrapper}>
-							<input
-								className={[styles.formInput, styles.titleInput].join(' ')}
-								name={'title'}
-								onChange={handleChange}
-								placeholder={'Title'}
-								value={event.title}
-							/>
-							<input
-								className={[styles.formInput, styles.categoryInput].join(' ')}
-								name={'category'}
-								onChange={handleChange}
-								placeholder={'Category'}
-								value={event.category}
-							/>
-							<textarea
-								className={[styles.formTextArea, styles.descriptionTextArea].join(' ')}
-								name={'description'}
-								onChange={handleChange}
-								placeholder={'Description'}
-								value={event.description}
-							/>
-							<input
-								className={[styles.formInput, styles.venueInput].join(' ')}
-								name={'venue'}
-								onChange={handleChange}
-								placeholder={'Venue'}
-								value={event.venue}
-							/>
-							<input
-								className={[styles.formInput, styles.cityInput].join(' ')}
-								name={'city'}
-								onChange={handleChange}
-								placeholder={'City'}
-								value={event.city}
-							/>
-							<input
-								className={[styles.formInput, styles.stateInput].join(' ')}
-								name={'state'}
-								onChange={handleChange}
-								placeholder={'State'}
-								value={event.state}
-							/>
-							<input
-								className={[styles.formInput, styles.dateInput].join(' ')}
-								name={'date'}
-								onChange={handleChange}
-								placeholder={'Date'}
-								value={event.date}
-								type={'date'}
-							/>
-							<section className={styles.formControls}>
-								<button className={styles.submitButton} type={'submit'}>
-									{loading ? 'Loading...' : 'submit'}
+		<Formik enableReinitialize initialValues={event}
+						onSubmit={values => console.log(values)}>
+			{({handleSubmit}) => (
+				<Form autoComplete={'off'} className={styles.eventForm}
+							onSubmit={handleSubmit}>
+					<h2 className={styles.formHeading}>Configure Event</h2>
+					<div className={styles.wrapper}>
+						<Field
+							className={[styles.formInput, styles.titleInput].join(' ')}
+							name={'title'}
+							placeholder={'Title'}
+						/>
+						<Field
+							className={[styles.formInput, styles.categoryInput].join(' ')}
+							name={'category'}
+							placeholder={'Category'}
+						/>
+						<Field
+							className={[styles.formTextArea, styles.descriptionTextArea].join(' ')}
+							name={'description'}
+							placeholder={'Description'}
+						/>
+						<Field
+							className={[styles.formInput, styles.venueInput].join(' ')}
+							name={'venue'}
+							placeholder={'Venue'}
+						/>
+						<Field
+							className={[styles.formInput, styles.cityInput].join(' ')}
+							name={'city'}
+							placeholder={'City'}
+						/>
+						<Field
+							className={[styles.formInput, styles.stateInput].join(' ')}
+							name={'state'}
+							placeholder={'State'}
+						/>
+						<Field
+							className={[styles.formInput, styles.dateInput].join(' ')}
+							name={'date'}
+							placeholder={'Date'}
+							type={'date'}
+						/>
+						<section className={styles.formControls}>
+							<button className={styles.submitButton} type={'submit'}>
+								{loading ? 'Loading...' : 'submit'}
+							</button>
+							<Link href={'/eventDashboard'} passHref>
+								<button className={styles.cancelButton}
+												type={'button'}>cancel
 								</button>
-								<Link href={'/eventDashboard'} passHref>
-									<button className={styles.cancelButton}
-													type={'button'}>cancel
-									</button>
-								</Link>
-							</section>
-						</div>
-					</form>
-				)}
-			</Formik>
+							</Link>
+						</section>
+					</div>
+				</Form>
+			)}
+		</Formik>
 	);
 };
 
